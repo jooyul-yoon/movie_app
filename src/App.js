@@ -1,8 +1,10 @@
 import React from "react";
-import PropTypes from "prop-types";
+import axios from "axios";
+import Movie from "./Movie";
+import "./App.css";
 
 /* 1, 2 */
-function Food({ name, icon, rating }) {
+/* function Food({ name, icon, rating }) {
   return (
     <div>
       <h2>
@@ -11,14 +13,14 @@ function Food({ name, icon, rating }) {
       <h4>{rating}/5</h4>
     </div>
   );
-}
+} */
 
 /* 3 */
-Food.propTypes = {
+/* Food.propTypes = {
   name: PropTypes.string.isRequired,
   icon: PropTypes.string.isRequired,
   rating: PropTypes.number.isRequired,
-};
+}; */
 
 /* app-1 */
 /* function App() {
@@ -34,7 +36,7 @@ Food.propTypes = {
 } */
 
 /* #2 */
-const foodILike = [
+/* const foodILike = [
   {
     id: 1,
     name: "poop",
@@ -44,7 +46,7 @@ const foodILike = [
   { id: 2, name: "pray", icon: "🙏", rating: 3.5 },
   { id: 3, name: "unicorn", icon: "🦄", rating: 2.2 },
   { id: 4, name: "ping pong", icon: "🏓", rating: 5.0 },
-];
+]; */
 
 /* app-2 */
 /* function App() {
@@ -59,7 +61,7 @@ const foodILike = [
 } */
 
 /* 3 */
-function renderFood(dish) {
+/* function renderFood(dish) {
   return (
     <Food
       key={dish.id}
@@ -68,11 +70,96 @@ function renderFood(dish) {
       rating={dish.rating}
     />
   );
-}
+} */
 
 /* app-3 */
-function App() {
+/* function App() {
   return <div>{foodILike.map(renderFood)}</div>;
+} */
+
+/* 4-class */
+/* class App extends React.Component {
+  componentDidMount() {
+    console.log("Completed render");
+  }
+  componentDidUpdate() {
+    console.log("component updated");
+  }
+  componentWillUnmount() {ㅌ
+    console.log("component died...");
+  }
+  state = {
+    count: 0,
+  };
+
+  add = () => {
+    this.setState((current) => ({ count: current.count + 1 }));
+    console.log("add", this.state.count);
+  };
+
+  remove = () => {
+    this.setState((current) => ({ count: current.count - 1 }));
+    console.log("remove", this.state.count);
+  };
+
+  render() {
+    console.log("rendering...");
+    return (
+      <div>
+        <h1>The number is {this.state.count}</h1>
+        <button onClick={this.add}>Plus</button>
+        <button onClick={this.remove}>Minus</button>
+      </div>
+    );
+  }
+} */
+
+class App extends React.Component {
+  state = { isLoading: true, movies: [] };
+
+  getMovies = async () => {
+    const {
+      data: {
+        data: { movies },
+      },
+    } = await axios.get(
+      "https://yts.mx/api/v2/list_movies.json?sort_by=rating"
+    );
+    this.setState({ movies, isLoading: false });
+    console.log(movies);
+  };
+
+  componentDidMount() {
+    this.getMovies();
+  }
+
+  render() {
+    const { isLoading, movies } = this.state;
+    return (
+      <section className="container">
+        {isLoading ? (
+          <div className="loader">
+            <span className="loader_text">Loading...</span>
+          </div>
+        ) : (
+          <div className="movies">
+            {movies.map((movie) => (
+              <Movie
+                key={movie.id}
+                id={movie.id}
+                title={movie.title}
+                genres={movie.genres}
+                year={movie.year}
+                rating={movie.raitng}
+                poster={movie.small_cover_image}
+                summary={movie.summary}
+              />
+            ))}
+          </div>
+        )}
+      </section>
+    );
+  }
 }
 
 export default App;

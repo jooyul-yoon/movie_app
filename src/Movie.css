@@ -1,0 +1,9 @@
+:root {
+  --base-space: 20px;
+  --card-color: blanchedalmond;
+}
+.movie {
+  padding: var(--base-space);
+  margin-bottom: var(--base-space);
+  background-color: var(--card-color);
+}
