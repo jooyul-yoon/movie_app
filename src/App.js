@@ -136,28 +136,39 @@ class App extends React.Component {
   render() {
     const { isLoading, movies } = this.state;
     return (
-      <section className="container">
-        {isLoading ? (
-          <div className="loader">
-            <span className="loader_text">Loading...</span>
-          </div>
-        ) : (
-          <div className="movies">
-            {movies.map((movie) => (
-              <Movie
-                key={movie.id}
-                id={movie.id}
-                title={movie.title}
-                genres={movie.genres}
-                year={movie.year}
-                rating={movie.raitng}
-                poster={movie.small_cover_image}
-                summary={movie.summary}
-              />
-            ))}
-          </div>
-        )}
-      </section>
+      <div className="main">
+        <header>
+          Movies - React JS
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/1200px-React-icon.svg.png"
+            alt="logo"
+            title="logo"
+          />
+        </header>
+        <section className="container">
+          {isLoading ? (
+            <div className="loader">
+              <span className="loader_text">Loading...</span>
+            </div>
+          ) : (
+            <div className="movies">
+              {movies.map((movie) => (
+                <Movie
+                  key={movie.id}
+                  id={movie.id}
+                  title={movie.title}
+                  genres={movie.genres}
+                  year={movie.year}
+                  rating={movie.rating}
+                  poster={movie.medium_cover_image}
+                  summary={movie.summary}
+                />
+              ))}
+            </div>
+          )}
+        </section>
+        <footer>Copyright &copy; Jooyul Yoon</footer>
+      </div>
     );
   }
 }
