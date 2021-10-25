@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 import "./Movie.css";
 
 function Movie({ id, title, rating, summary, year, poster, genres }) {
@@ -13,21 +14,27 @@ function Movie({ id, title, rating, summary, year, poster, genres }) {
     stars = stars + "☆";
   }
 
-  console.log(stars);
   return (
-    <div className="movie">
-      <img src={poster} alt={title} title={title} />
-      <div className="movie__data">
-        <h3 className="movie__title">{title}</h3>
-        <h4 className="movie__year">
-          {stars} {year}
-        </h4>
-        <h4 className="movie__genres">
-          {genres.map((genre, index) => genre + "  ")}
-        </h4>
-        <p className="movie__summary">{summary.slice(0, 200) + "..."}</p>
+    <Link
+      to={{
+        pathname: "/movie-detail",
+        state: { poster, year, title, summary, stars, genres },
+      }}
+    >
+      <div className="movie">
+        <img src={poster} alt={title} title={title} />
+        <div className="movie__data">
+          <h3 className="movie__title">{title}</h3>
+          <h4 className="movie__year">
+            {stars} {year}
+          </h4>
+          <h4 className="movie__genres">
+            {genres.map((genre, index) => genre + "  ")}
+          </h4>
+          <p className="movie__summary">{summary.slice(0, 200) + "..."}</p>
+        </div>
       </div>
-    </div>
+    </Link>
   );
 }
 
